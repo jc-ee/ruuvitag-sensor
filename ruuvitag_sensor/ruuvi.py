@@ -165,6 +165,7 @@ class RuuviTagSensor(object):
             # If data is not valid RuuviTag data add MAC to blacklist if MAC is available
             if data is not None:
                 decoded = get_decoder(data_format).decode_data(data)
+                decoded['rssi'] = int(data[-2:], 16) - 256
                 if decoded is not None:
                     # If advertised MAC is missing, try to parse it from the payload
                     mac = ble_data[0] if ble_data[0] else \
